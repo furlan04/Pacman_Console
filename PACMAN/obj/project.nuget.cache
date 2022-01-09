@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5Y50jdWHOcLvtrXmqJ6QkMybBzzqbK6ITcaBij2iRkKdjbiydlG4ocesyEaVXmmmGbA/T5cJJHWReIbGPhEGOQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tiscr\\OneDrive\\Documenti\\INFO_Compiti\\PACMAN\\PACMAN\\PACMAN.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tiscr\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}
