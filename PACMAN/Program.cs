@@ -44,16 +44,16 @@ namespace PACMAN
         static List<int[]> posizioniFantasmi = new List<int[]>()
         {
             new int[2] { 14, 14 },
+            new int[2] { 14, 17 },
             new int[2] { 14, 15 },
             new int[2] { 14, 16 },
-            new int[2] { 14, 17 },
         };
         static List<int[]> posizioniFantasmiIniziali = new List<int[]>()
         {
             new int[2] { 14, 14 },
+            new int[2] { 14, 17 },
             new int[2] { 14, 15 },
             new int[2] { 14, 16 },
-            new int[2] { 14, 17 },
         };
         static int[] posizione = new int[2] { 1, 1 };
         static String[,] griglia = new String[30, 30]
@@ -184,6 +184,7 @@ namespace PACMAN
         }
         static void AggiornaGriglia(object obj)
         {
+            Console.CursorVisible = false;
             Giocatore g = obj as Giocatore;
             int n = 1;
             Sottofondo s = new Sottofondo(ref fine);
@@ -236,7 +237,7 @@ namespace PACMAN
                     Console.WriteLine($"{g.Nome} - Punti: {punti} - Vite: {numerovite} - Livello: {livello}");
                     StampaGriglia();
                 }
-                Thread.Sleep(300);
+                Thread.Sleep(100);
             }
             Console.Clear();
             if (g.Record < punti)
@@ -838,7 +839,6 @@ namespace PACMAN
         {
             Console.Title = "PACMAN";
             Console.OutputEncoding = Encoding.UTF8;
-            Console.CursorVisible = false;
             Console.Clear();
             #region INTRODUZIONE
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -866,7 +866,7 @@ namespace PACMAN
             Thread griglia = new(AggiornaGriglia);
             griglia.Start(a);
             pacman.Start();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 new Thread(Fantasma).Start(i);
             }
