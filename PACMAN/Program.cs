@@ -184,15 +184,17 @@ namespace PACMAN
         }
         static void AggiornaGriglia(object obj)
         {
+            Console.CursorVisible = false;
             Giocatore g = obj as Giocatore;
             int n = 1;
             Sottofondo s = new Sottofondo(ref fine);
             new Thread(s.Play).Start();
             while (!fine)
             {
-                Console.Clear();
                 if (pacmanMangiato)
                 {
+                    Console.SetCursorPosition(0, 0);
+                    Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(Morto.Stringa);
                     Console.ReadLine();
@@ -214,6 +216,7 @@ namespace PACMAN
                     }
                     if (FineLivello())
                     {
+                        Console.SetCursorPosition(0, 0);
                         Console.Clear();
                         Console.WriteLine($"Livello superato con successo!");
                         livello++;
@@ -227,9 +230,12 @@ namespace PACMAN
                     }
                 }
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Clear();
-                Console.WriteLine($"{g.Nome} - Punti: {punti} - Vite: {numerovite} - Livello: {livello}");
-                StampaGriglia();
+                lock (_lock)
+                {
+                    Console.SetCursorPosition(0, 0);
+                    Console.WriteLine($"{g.Nome} - Punti: {punti} - Vite: {numerovite} - Livello: {livello}");
+                    StampaGriglia();
+                }
                 Thread.Sleep(300);
             }
             Console.Clear();
