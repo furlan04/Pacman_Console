@@ -184,7 +184,6 @@ namespace PACMAN
         }
         static void AggiornaGriglia(object obj)
         {
-            Console.CursorVisible = false;
             Giocatore g = obj as Giocatore;
             int n = 1;
             Sottofondo s = new Sottofondo(ref fine);
@@ -202,6 +201,7 @@ namespace PACMAN
                     {
                         pacmanMangiato = false;
                     }
+                    Console.Clear();
                 }
                 lock (_lock)
                 {
@@ -329,6 +329,7 @@ namespace PACMAN
                     }
                     if ((posizione[0], posizione[1]) == (15, 0))
                     {
+                        griglia[posizione[0], posizione[1]] = " ";
                         posizione[0] = 15;
                         posizione[1] = 29;
                     }
@@ -360,6 +361,7 @@ namespace PACMAN
                     }
                     if ((posizione[0], posizione[1]) == (15, 29))
                     {
+                        griglia[posizione[0], posizione[1]] = " ";
                         posizione[0] = 15;
                         posizione[1] = 0;
                     }
