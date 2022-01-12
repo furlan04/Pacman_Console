@@ -43,17 +43,17 @@ namespace PACMAN
         static int difficoltà = 0;
         static List<int[]> posizioniFantasmi = new List<int[]>()
         {
-            new int[2] { 14, 14 },
-            new int[2] { 14, 17 },
-            new int[2] { 14, 15 },
-            new int[2] { 14, 16 },
+            new int[2] { 15, 8 },
+            new int[2] { 15, 21 },
+            new int[2] { 16, 8 },
+            new int[2] { 16, 21 },
         };
         static List<int[]> posizioniFantasmiIniziali = new List<int[]>()
         {
-            new int[2] { 14, 14 },
-            new int[2] { 14, 17 },
-            new int[2] { 14, 15 },
-            new int[2] { 14, 16 },
+            new int[2] { 15, 8 },
+            new int[2] { 15, 21 },
+            new int[2] { 16, 8 },
+            new int[2] { 16, 21 },
         };
         static int[] posizione = new int[2] { 1, 1 };
         static String[,] griglia = new String[30, 30]
@@ -71,10 +71,43 @@ namespace PACMAN
             { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//10
             { "X","X","X","","","","","","","","","","","","","","","","","","","","","","","","","X","X","X",},//11
             { " "," ","X","","","","","","","","","","","","","","","","","","","","","","","","","X"," "," ",},//12
-            { " "," ","X","","","","","","","","","X"," "," "," "," "," "," ","X","","","","","","","","","X"," "," ",},//13
-            { "X","X","X","","","","","","","","","X"," "," "," "," "," "," ","X","","","","","","","","","X","X","X",},//14
-            { " "," "," ","","","","","","","","","X",""," "," "," "," "," ","X","","","","","","","",""," "," "," ",},//15
-            { "X","X","X","","","X","X","","","","","X"," "," "," "," "," "," ","X","","","","","X","X","","","X","X","X",},//16
+            { " "," ","X","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","","","X"," "," ",},//13
+            { "X","X","X","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","","","X","X","X",},//14
+            { " "," "," ","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","",""," "," "," ",},//15
+            { "X","X","X","","","X","X","","","","","X","X","X","X","X","X","X","X","","","","","X","X","","","X","X","X",},//16
+            { " "," ","X","","","X","X","","","","","X","X","X","X","X","X","X","X","","","","","X","X","","","X"," "," ",},//17
+            { " "," ","X","","","X","X","","","","","","","","","","","","","","","","","X","X","","","X"," "," ",},//18
+            { "X","X","X","","","","","","","","","","","","","","","","","","","","","","","","","X","X","X",},//19
+            { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//20
+            { "X","","X","X","X","","","","","","","","","X","X","X","X","X","","","","","","","","X","X","X","","X",},//21
+            { "X","","","","X","","","","","","","","","","","X","","","","","","","","","","X","","","","X",},//22
+            { "X","","","","X","","","","","","","","","","","X","","","","","","","","","","X","","","","X",},//23
+            { "X","X","X","","","","","","","","","","","","","","","","","","","","","","","","","X","X","X",},//24
+            { "X","","","","","","","","","","","","","X","X","X","X","X","","","","","","","","","","","","X",},//25
+            { "X","","","","","°","X","","","","","","","","","X","","","","","","","","X","°","","","","","X",},//26
+            { "X","","X","X","X","X","X","X","","","","","","","","X","","","","","","","X","X","X","X","X","X","","X",},//27
+            { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//28
+            { "X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},//29
+        };
+        static String[,] grigliainiziale = new String[30, 30]
+        {
+            { "X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},//0
+            { "X"," ","","","","","","","","","","","","","","X","","","","","","","","","","","","","","X",},//1
+            { "X","","","","","","","","","","","","","","","X","","","","","","","","","","","","","","X",},//2
+            { "X","","","X","X","X","","","","X","X","X","","","","","","","X","X","X","","","","X","X","X","","","X",},//3
+            { "X","","","X","X","X","","","","X","X","X","","","","","","","X","X","X","","","","X","X","X","","","X",},//4
+            { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//5
+            { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//6
+            { "X","","","X","X","X","","","","X","X","°","","","","","","","°","X","X","","","","X","X","X","","","X",},//7
+            { "X","","","","","","","","","X","X","X","X","","","","","X","X","X","X","","","","","","","","","X",},//8
+            { "X","","","","","","","","","X","X","","","","","","","","","X","X","","","","","","","","","X",},//9
+            { "X","","","","","","","","","","","","","","","","","","","","","","","","","","","","","X",},//10
+            { "X","X","X","","","","","","","","","","","","","","","","","","","","","","","","","X","X","X",},//11
+            { " "," ","X","","","","","","","","","","","","","","","","","","","","","","","","","X"," "," ",},//12
+            { " "," ","X","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","","","X"," "," ",},//13
+            { "X","X","X","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","","","X","X","X",},//14
+            { " "," "," ","","","","","","","","","X","X","X","X","X","X","X","X","","","","","","","",""," "," "," ",},//15
+            { "X","X","X","","","X","X","","","","","X","X","X","X","X","X","X","X","","","","","X","X","","","X","X","X",},//16
             { " "," ","X","","","X","X","","","","","X","X","X","X","X","X","X","X","","","","","X","X","","","X"," "," ",},//17
             { " "," ","X","","","X","X","","","","","","","","","","","","","","","","","X","X","","","X"," "," ",},//18
             { "X","X","X","","","","","","","","","","","","","","","","","","","","","","","","","X","X","X",},//19
@@ -119,11 +152,11 @@ namespace PACMAN
                             griglia[i, j] = Pallino;
                         }
                     }
-                    else if(griglia[i, j].Equals("X"))
+                    else if (griglia[i, j].Equals("X"))
                     {
                         griglia[i, j] = Muro;
                     }
-                    else if(griglia[i, j].Equals("°"))
+                    else if (griglia[i, j].Equals("°"))
                     {
                         griglia[i, j] = Mangia;
                     }
@@ -185,6 +218,7 @@ namespace PACMAN
         static void AggiornaGriglia(object obj)
         {
             Console.CursorVisible = false;
+            Console.OutputEncoding = Encoding.UTF8;
             Giocatore g = obj as Giocatore;
             int n = 1;
             Sottofondo s = new Sottofondo(ref fine);
@@ -198,7 +232,7 @@ namespace PACMAN
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(Morto.Stringa);
                     Console.ReadLine();
-                    lock(_lock)
+                    lock (_lock)
                     {
                         pacmanMangiato = false;
                     }
@@ -211,7 +245,7 @@ namespace PACMAN
                         n++;
                         numerovite++;
                     }
-                    if(numerovite == 0)
+                    if (numerovite == 0)
                     {
                         fine = true;
                     }
@@ -223,7 +257,7 @@ namespace PACMAN
                         livello++;
                         lock (_lock)
                         {
-                            GeneraGriglia();
+                            griglia = grigliainiziale;
                             posizioniFantasmi = posizioniFantasmiIniziali;
                             posizione = new int[2] { 0, 0 };
                         }
@@ -266,16 +300,6 @@ namespace PACMAN
                 fantasmiMangiati = 0;
             }
         }
-        static void AggiornaValoreASchermo(string s, int riga, int colonna)
-        {
-            try
-            {
-                Console.SetCursorPosition(riga, colonna);
-                Console.Write($"{s} ");
-            }
-            catch (Exception)
-            { }
-        }
         static bool FineLivello()
         {
             for (int i = 0; i < griglia.GetLength(0); i++)
@@ -306,6 +330,7 @@ namespace PACMAN
         {
             lock (_lock)
             {
+                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
                 posizioniFantasmi[index] = new List<int>(posizioniFantasmiIniziali[index]).ToArray();
                 fantasmiMangiati++;
                 punti += 200 * fantasmiMangiati;
@@ -415,23 +440,29 @@ namespace PACMAN
                         if (!mangiabili)
                         {
                             FantasmaMangiaPacMan();
-                            while (pacmanMangiato);
-                            griglia[posizione[0], posizione[1]] = Mangia;
-                            posizione = new int[2]
+                            while (pacmanMangiato) ;
+                            lock (_lock)
                             {
+                                griglia[posizione[0], posizione[1]] = " ";
+                                posizione = new int[2]
+                                {
                                 1, 1
-                            };
-                            griglia[posizione[0], posizione[1]] = ActivePacMan;
+                                };
+                                griglia[posizione[0], posizione[1]] = ActivePacMan;
+                            }
                         }
                         else
                         {
                             int indexOfGhost = 10;
-                            for (int i = 0; i < posizioniFantasmi.Count; i++)
+                            lock (_lock)
                             {
-                                if ((posizioniFantasmi[i][0], posizioniFantasmi[i][1]) == (posizione[0], posizione[1]))
+                                for (int i = 0; i < posizioniFantasmi.Count; i++)
                                 {
-                                    indexOfGhost = i;
-                                    break;
+                                    if ((posizioniFantasmi[i][0], posizioniFantasmi[i][1]) == (posizione[0], posizione[1]))
+                                    {
+                                        indexOfGhost = i;
+                                        break;
+                                    }
                                 }
                             }
                             if (indexOfGhost != 10)
@@ -452,7 +483,7 @@ namespace PACMAN
                         new Thread(GestisciMangiabili).Start();
                         break;
                     default:
-                        lock(_lock)
+                        lock (_lock)
                         {
                             griglia[posizione[0], posizione[1]] = ActivePacMan;
                         }
@@ -470,70 +501,70 @@ namespace PACMAN
             switch (inp)
             {
                 case 1:
-                    if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            posizioniFantasmi[index][1]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                if (!mangiabili)
+                                    FantasmaMangiaPacMan();
+                                else
+                                    PacManMangiaFantasma(index);
+                            }
                         }
-                        posizioniFantasmi[index][1]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            if (!mangiabili)
-                                FantasmaMangiaPacMan();
-                            else
-                                PacManMangiaFantasma(index);
-                        }
+                        break;
                     }
-                    break;
                 case 2:
-                    if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            if (!mangiabili)
-                                FantasmaMangiaPacMan();
-                            else
-                                PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][0]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                if (!mangiabili)
+                                    FantasmaMangiaPacMan();
+                                else
+                                    PacManMangiaFantasma(index);
+                            }
                         }
                     }
                     break;
                 case 3:
-                    if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][1]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            if (!mangiabili)
-                                FantasmaMangiaPacMan();
-                            else
-                                PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][1]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                if (!mangiabili)
+                                    FantasmaMangiaPacMan();
+                                else
+                                    PacManMangiaFantasma(index);
+                            }
                         }
                     }
                     break;
                 case 4:
-                    if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            if (!mangiabili)
-                                FantasmaMangiaPacMan();
-                            else
-                                PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][0]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                if (!mangiabili)
+                                    FantasmaMangiaPacMan();
+                                else
+                                    PacManMangiaFantasma(index);
+                            }
                         }
                     }
                     break;
@@ -545,35 +576,35 @@ namespace PACMAN
         }
         static void Rincorri(int index, int distanzaX, int distanzaY)
         {
-            if (distanzaY < distanzaX)
+            if (distanzaY > distanzaX)
             {
                 if (distanzaY > 0)
                 {
-                    if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            FantasmaMangiaPacMan();
+                            posizioniFantasmi[index][0]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                FantasmaMangiaPacMan();
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            FantasmaMangiaPacMan();
+                            posizioniFantasmi[index][0]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                FantasmaMangiaPacMan();
+                            }
                         }
                     }
                 }
@@ -582,31 +613,31 @@ namespace PACMAN
             {
                 if (distanzaX > 0)
                 {
-                    if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][1]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            FantasmaMangiaPacMan();
+                            posizioniFantasmi[index][1]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                FantasmaMangiaPacMan();
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][1]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                        {
-                            FantasmaMangiaPacMan();
+                            posizioniFantasmi[index][1]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            {
+                                FantasmaMangiaPacMan();
+                            }
                         }
                     }
                 }
@@ -614,35 +645,35 @@ namespace PACMAN
         }
         static void Scappa(int index, int distanzaX, int distanzaY)
         {
-            if (distanzaY < distanzaX)
+            if (distanzaY > distanzaX)
             {
                 if (distanzaY > 0)
                 {
-                    if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
-                        {
-                            PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][0]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            {
+                                PacManMangiaFantasma(index);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][0]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
-                        {
-                            PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][0]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            {
+                                PacManMangiaFantasma(index);
+                            }
                         }
                     }
                 }
@@ -651,31 +682,31 @@ namespace PACMAN
             {
                 if (distanzaX > 0)
                 {
-                    if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "°")
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "°")
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][1]--;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
-                        {
-                            PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][1]--;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            {
+                                PacManMangiaFantasma(index);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "°")
+                    lock (_lock)
                     {
-                        lock (_lock)
+                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "°")
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                        }
-                        posizioniFantasmi[index][1]++;
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
-                        {
-                            PacManMangiaFantasma(index);
+                            posizioniFantasmi[index][1]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            {
+                                PacManMangiaFantasma(index);
+                            }
                         }
                     }
                 }
@@ -838,7 +869,6 @@ namespace PACMAN
         static void Main(string[] args)
         {
             Console.Title = "PACMAN";
-            Console.OutputEncoding = Encoding.UTF8;
             Console.Clear();
             #region INTRODUZIONE
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -866,7 +896,8 @@ namespace PACMAN
             Thread griglia = new(AggiornaGriglia);
             griglia.Start(a);
             pacman.Start();
-            for (int i = 0; i < 2; i++)
+            int numero_fantasmi = difficoltà == 2 ? 4 : 2;
+            for (int i = 0; i < numero_fantasmi; i++)
             {
                 new Thread(Fantasma).Start(i);
             }
