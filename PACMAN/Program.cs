@@ -515,8 +515,8 @@ namespace PACMAN
                                     PacManMangiaFantasma(index);
                             }
                         }
-                        break;
                     }
+                    break;
                 case 2:
                     lock (_lock)
                     {
