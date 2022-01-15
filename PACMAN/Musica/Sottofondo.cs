@@ -4,7 +4,7 @@ namespace PACMAN.Musica
 {
     public class Sottofondo
     {
-        bool fine { get; set; }
+        public bool fine { get; set; }
         public Sottofondo(ref bool fine)
         {
             this.fine = fine;

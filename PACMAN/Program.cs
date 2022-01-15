@@ -15,7 +15,6 @@
 //2.Vite a disposizione
 //3. Record corrente 
 
-
 using System;
 using System.Threading;
 using System.Collections.Generic;
@@ -142,7 +141,7 @@ namespace PACMAN
                 {
                     if (griglia[i, j] == "")
                     {
-                        if (r.Next(1, 600) == 265 && bonusMangiati < 4 && nBonus < 4)
+                        if (r.Next(1, 800) == 265 && bonusMangiati < 4 && nBonus < 4)
                         {
                             griglia[i, j] = Bonus;
                             nBonus++;
@@ -282,8 +281,9 @@ namespace PACMAN
                 Thread.Sleep(2000);
             }
             Console.ForegroundColor = ConsoleColor.Blue;
+            s.fine = true;
             Console.WriteLine(Fine.Stringa);
-            Console.Read();
+            Console.ReadLine();
         }
         #endregion
         #region GESTIONE EVENTI E CONTROLLI NEL GIOCO
@@ -426,7 +426,10 @@ namespace PACMAN
         {
             while (!fine)
             {
-                InputGiocatore();
+                lock (_lock)
+                {
+                    InputGiocatore();
+                }
                 switch (griglia[posizione[0], posizione[1]])
                 {
                     case Pallino:
@@ -481,6 +484,11 @@ namespace PACMAN
                         break;
                     case Mangia:
                         new Thread(GestisciMangiabili).Start();
+                        lock (_lock)
+                        {
+                            punti += 50;
+                            griglia[posizione[0], posizione[1]] = ActivePacMan;
+                        }
                         break;
                     default:
                         lock (_lock)
@@ -497,13 +505,13 @@ namespace PACMAN
         static void MuoviFantasma(int index)
         {
             Random r = new Random();
-            int inp = r.Next(1, 5);
+            int inp = r.Next(0, 4);
             switch (inp)
             {
-                case 1:
+                case 0:
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
+                        if (CanMove(index, 3))
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
                             posizioniFantasmi[index][1]--;
@@ -517,14 +525,31 @@ namespace PACMAN
                         }
                     }
                     break;
-                case 2:
+                case 1:
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
+                        if (CanMove(index, 1))
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
                             posizioniFantasmi[index][0]--;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
+                            {
+                                if (!mangiabili)
+                                    FantasmaMangiaPacMan();
+                                else
+                                    PacManMangiaFantasma(index);
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    lock (_lock)
+                    {
+                        if (CanMove(index, 2))
+                        {
+                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            posizioniFantasmi[index][1]++;
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 if (!mangiabili)
                                     FantasmaMangiaPacMan();
@@ -537,28 +562,11 @@ namespace PACMAN
                 case 3:
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
-                        {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
-                            posizioniFantasmi[index][1]++;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
-                            {
-                                if (!mangiabili)
-                                    FantasmaMangiaPacMan();
-                                else
-                                    PacManMangiaFantasma(index);
-                            }
-                        }
-                    }
-                    break;
-                case 4:
-                    lock (_lock)
-                    {
-                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
+                        if (CanMove(index, 0))
                         {
                             griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
                             posizioniFantasmi[index][0]++;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 if (!mangiabili)
                                     FantasmaMangiaPacMan();
@@ -574,6 +582,22 @@ namespace PACMAN
                 griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = FantasmaChar;
             }
         }
+        static bool CanMove(int index, int mossa)
+        {
+            switch(mossa)
+            {
+                case 0:
+                    return griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia;
+                case 1:
+                    return griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia;
+                case 2:
+                    return griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia;
+                case 3:
+                    return griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia;
+                default:
+                    return false;
+            }
+        }
         static void Rincorri(int index, int distanzaX, int distanzaY)
         {
             if (distanzaY > distanzaX)
@@ -582,11 +606,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != Mangia)
+                        if (CanMove(index, 0))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][0]++;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 FantasmaMangiaPacMan();
                             }
@@ -597,11 +624,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Muro && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != Mangia)
+                        if (CanMove(index, 1))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][0]--;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 FantasmaMangiaPacMan();
                             }
@@ -615,9 +645,12 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia)
+                        if (CanMove(index, 2))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][1]++;
                             if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
                             {
@@ -630,9 +663,12 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != Mangia)
+                        if (CanMove(index, 3))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][1]--;
                             if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManDX || griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == PacManSX)
                             {
@@ -651,11 +687,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
+                        if (CanMove(index, 1))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][0]--;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 PacManMangiaFantasma(index);
                             }
@@ -666,11 +705,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "X" && griglia[posizioniFantasmi[index][0] - 1, posizioniFantasmi[index][1]] != "°")
+                        if (CanMove(index, 0))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizione[0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][0]++;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 PacManMangiaFantasma(index);
                             }
@@ -684,11 +726,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1] != "°")
+                        if (CanMove(index, 3))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][1]--;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 PacManMangiaFantasma(index);
                             }
@@ -699,11 +744,14 @@ namespace PACMAN
                 {
                     lock (_lock)
                     {
-                        if (griglia[posizioniFantasmi[index][0] + 1, posizioniFantasmi[index][1]] != "6" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "X" && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != "°")
+                        if (CanMove(index, 2))
                         {
-                            griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            lock (_lock)
+                            {
+                                griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = grigliadef[posizioniFantasmi[index][0], posizioniFantasmi[index][1]];
+                            }
                             posizioniFantasmi[index][1]++;
-                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == "O")
+                            if (griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] == ActivePacMan)
                             {
                                 PacManMangiaFantasma(index);
                             }
@@ -876,11 +924,11 @@ namespace PACMAN
             Console.ReadLine();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("O -> PacMan");
-            Console.WriteLine("6 -> Fantasmi");
-            Console.WriteLine("° -> Bonus [ti permette di mangiare i fantasmi]");
-            Console.WriteLine(". -> Pallini devi finirli per passare al livello successivo");
-            Console.WriteLine("X -> Muri");
+            Console.WriteLine($"{ActivePacMan} -> PacMan");
+            Console.WriteLine($"{FantasmaChar} -> Fantasmi");
+            Console.WriteLine($"{Mangia} -> Bonus [ti permette di mangiare i fantasmi]");
+            Console.WriteLine($"{Pallino} -> Pallini devi finirli per passare al livello successivo");
+            Console.WriteLine($"{Muro} -> Muri");
             Console.WriteLine("Premi invio per iniziare...");
             Console.ReadKey();
             Console.Clear();
