@@ -274,6 +274,7 @@ namespace PACMAN
             {
                 Console.WriteLine($"Nuovo record {punti}!!!");
                 g.Record = punti;
+                g.Livello = livello;
                 AggiornaRecord(g);
                 Thread.Sleep(2000);
             }
@@ -908,7 +909,8 @@ namespace PACMAN
                         players.Add(new Giocatore
                         {
                             Record = int.Parse(riga[1]),
-                            Nome = riga[0]
+                            Nome = riga[0],
+                            Livello = int.Parse(riga[2]),
                         });
                     }
                 }

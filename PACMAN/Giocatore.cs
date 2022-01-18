@@ -4,6 +4,7 @@
     {
         public string Nome { get; set; }
         public int Record { get; set; }
+        public int Livello { get; set; }
         public Giocatore() { }
         public Giocatore(string[] vals)
         {
@@ -12,7 +13,7 @@
         }
         public override string ToString()
         {
-            return $"{Nome};{Record}";
+            return $"{Nome};{Record};{Livello}";
         }
     }
 }
