@@ -19,7 +19,6 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using PACMAN.Scene;
-using System.Text;
 using System.IO;
 
 namespace PACMAN
@@ -216,7 +215,7 @@ namespace PACMAN
         static void AggiornaGriglia(object obj)
         {
             Console.CursorVisible = false;
-            Console.OutputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Giocatore g = obj as Giocatore;
             int n = 1;
             while (!fine)
@@ -596,7 +595,7 @@ namespace PACMAN
                     }
                     return griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != FantasmaChar && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Muro && griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1] + 1] != Mangia;
                 case 3:
-                    if((posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1) == (15, 0))
+                    if ((posizioniFantasmi[index][0], posizioniFantasmi[index][1] - 1) == (15, 0))
                     {
                         griglia[posizioniFantasmi[index][0], posizioniFantasmi[index][1]] = " ";
                         posizioniFantasmi[index][1] = 29;
@@ -848,13 +847,26 @@ namespace PACMAN
         #region GESTIONE UTENTE
         static Giocatore Login()
         {
-            Console.WriteLine($"Hai già giocato prima?[si, no]");
-            string resp = Console.ReadLine();
+            string resp = "...";
+            do
+            {
+                try
+                {
+                    Console.WriteLine($"Hai già giocato prima?[si, no]");
+                    resp = Console.ReadLine();
+                }
+                catch (FormatException)
+                { }
+            } while (resp == "...");
             Giocatore player = null;
             if (resp.Equals("si"))
             {
-                Console.WriteLine("Nome utente?");
-                string nome = Console.ReadLine();
+                string nome = "";
+                do
+                {
+                    Console.WriteLine("Nome utente?");
+                    nome = Console.ReadLine();
+                } while (nome == "");
                 using (var reader = new StreamReader(path))
                 {
                     while (!reader.EndOfStream)
@@ -886,6 +898,8 @@ namespace PACMAN
             {
                 Console.WriteLine("Come ti chiami?");
                 string nome = Console.ReadLine();
+                if (nome == "")
+                    nome = "guest";
                 player = new Giocatore { Nome = nome, Record = 0 };
                 using (StreamWriter writer = new StreamWriter(path, true))
                 {
@@ -948,8 +962,13 @@ namespace PACMAN
             do
             {
                 Console.Clear();
-                Console.WriteLine("Seleziona difficoltà[1,2,3]");
-                difficoltà = int.Parse(Console.ReadLine());
+                try
+                {
+                    Console.WriteLine("Seleziona difficoltà[1,2,3]");
+                    difficoltà = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException)
+                { }
             } while (difficoltà < 1 || difficoltà > 3);
             GeneraGriglia();
             #endregion
